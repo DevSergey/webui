@@ -5,10 +5,9 @@ export const loadUser = user => ({
   data: user,
 });
 export const fetchUser = () => (dispatch) => {
-  const requestURL = '/test/';
-  fetchUtils.fetchJSON(requestURL)
-    .then((json) => {
-      dispatch(loadUser(json));
-    }, () => {
-    });
+  const requestURL = '/api/user';
+  fetchUtils.fetchJSON(requestURL).then((json) => {
+    dispatch(loadUser(json));
+  }, () => {
+  });
 };

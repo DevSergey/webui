@@ -8,11 +8,14 @@ const Home = language => (
       <title>
         Demo web
       </title>
-      <script src={`${SERVER_URL_LIB}/vendor.js`} />
+      <script src={`${SERVER_URL_LIB}/vendor.Bundle.js`} />
     </head>
     <body>
+      <div>
+        This is a home page
+      </div>
       <div id="content" />
-      <script src={`${SERVER_URL_LIB}/main.Bundel.js`} />
+      <script src={`${SERVER_URL_LIB}/main.Bundle.js`} />
     </body>
   </html>);
 export default Home;

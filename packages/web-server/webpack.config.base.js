@@ -4,7 +4,6 @@ const cssnano = require('cssnano');
 const path = require('path');
 const postcssImport = require('postcss-import');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const packagesDir = path.resolve(__dirname, '../../', 'packages');
 const devModal = process.env.NODE_ENV === 'development';
 const baseSassLoader = [{
   loader: 'css-loader',
@@ -45,6 +44,7 @@ const sassLoaderDev = [{
 }];
 const sassLoader = devModal ? sassLoaderDev : sassLoaderPro;
 module.exports = {
+  mode: process.env.NODE_ENV,
   entry: {
     main: ['../web/src/index.jsx'],
     vendor: [
@@ -53,7 +53,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, './lib'),
-    filename: '[name].Bundel.js',
+    filename: '[name].Bundle.js',
     publicPath: '/lib/',
     sourceMapFilename: '[name].Bundle.map',
   },
@@ -63,10 +63,6 @@ module.exports = {
       exclude: /node_modules|lib/,
       use: {
         loader: 'babel-loader',
-        options: {
-          presets: ['env', 'react', '@babel/preset-env'],
-          plugins: ['@babel/transform-runtime'],
-        },
       },
     }, {
       test: /\.css$/,
@@ -94,15 +90,22 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.scss'],
   },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          chunks: 'all',
+        },
+      },
+    },
+  },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       },
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      filename: 'vendor.js',
     }),
     new ExtractTextPlugin({
       allChunks: false,
