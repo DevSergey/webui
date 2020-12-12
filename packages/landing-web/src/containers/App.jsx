@@ -30,7 +30,7 @@ App.defaultProps = {
   user: 'default user 1',
 };
 const mapStateToProps = state => ({
-  user: state.demo.user,
+  user: state.landing.user,
 });
 const mapDispatchToProps = dispatch => ({
   loadUser(state) {
