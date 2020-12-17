@@ -12,24 +12,28 @@ const baseKarmaConf = (overrides) => {
     frameworks: ['jasmine'],
     files: [
       'node_module/babel-polyfill/dist/polyfill.js',
-      'test/unit/index.js',
+      'tests/unit/index.js',
     ],
     exclude: [
     ],
     plugins: [
       'karma-chrome-launcher',
-      'karma-coverage-istanbul-reporter',
       'karma-jasmine',
       'karma-webpack',
+      'karma-sourcemap-loader',
+      'karma-coverage',
+      'karma-coverage-istanbul-reporter',
       'karma-spec-reporter',
+      'karma-html-reporter',
+      'karma-junit-reporter',
     ],
     preprocessors: {
       'tests/unit/index.js': ['webpack', 'sourcemap'],
     },
-    reporters: ['coverage-istanbul'],
+    reporters: ['spec', 'junit', 'html', 'coverage-istanbul'],
     coverageIstanbulReporter: {
       reports: ['html'],
-      fixWebpackSourcePahts: true,
+      fixWebpackSourcePaths: true,
       dir: 'tests/out/coverage/',
       'report-config': {
         html: {
@@ -37,14 +41,26 @@ const baseKarmaConf = (overrides) => {
         },
       },
       thresholds: {
-        emitWaening: false,
+        emitWarning: false,
         global: {
           statements: 90,
-          line: 90,
+          lines: 90,
           branches: 90,
-          function: 90,
+          functions: 90,
         },
       },
+      verbose: false, 
+    },
+    htmlReporter: {
+      outputDir: 'tests/out/unit',
+      reportName: 'htmlReporter',
+      namedFile: true,
+      urlFriendlyName: true,
+    },
+    junitReporter: {
+      outputDir: 'tests/out/unit',
+      useBrowserName: false,
+      outputFile: 'junitReport.xml',
     },
     webpackMiddleware: {
       noInfo: true,
@@ -52,28 +68,50 @@ const baseKarmaConf = (overrides) => {
         colors: true,
         chunks: false,
         hash: false,
+        modules: false,
       },
     },
     port: 9876,
     colors: true,
-    autoWatch: false,
-    browsers: ['Chrome'],
+    autoWatch: true,
+    browsers: ['ChromeHeadless'],
     singleRun: true,
     concurrency: Infinity,
     webpack: {
-      devtool: 'eval',
+      mode: 'development',
+      devtool: 'inline-source-map',
       module: {
         rules: [{
           test: /\.jsx?$/,
+          use: [{
+            loader: 'babel-loader',
+            options: {
+              "plugins": [
+                ["istanbul", {
+                  "include": [
+                    "**/src/**"
+                  ]
+                }]
+              ]
+            },
+          }],
           exclude: /node_modules/,
         }, {
           test: /\.scss$/,
-          loaders: ['style-loader', 'css-loader', 'sass-loader']
+          use: ['style-loader', 'css-loader', 'sass-loader']
         }, {
           test: /\.css$/,
-          loaders: ['style-loader', 'css-loader']
+          use: ['style-loader', 'css-loader']
         }].concat(rules)
       },
+      resolve: {
+        extensions: ['.js', '.jsx', '.scss'],
+      },
+      externals: {
+        'react/addons': true,
+        'react/lib/ExecutionEnvironment': true,
+        'react/lib/ReactContext': true,
+      }
     },
   };
   if (overrides) {

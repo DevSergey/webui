@@ -15,7 +15,7 @@ export class App extends PureComponent {
   render() {
     const { user } = this.props;
     return (
-      <div className="demo-app">
+      <div className="landing-app">
         {`Hello, ${user}!`}
       </div>
     );
