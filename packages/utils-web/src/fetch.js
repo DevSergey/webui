@@ -11,5 +11,5 @@ const fetchJSON = (...params) => fetch(...params)
 const fetchXML = () => {};
 export {
   fetchJSON,
-  fetchXML,
+  fetchXML
 };

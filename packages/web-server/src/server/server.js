@@ -22,12 +22,12 @@ if (process.env.NODE_ENV === 'development') {
       hash: false,
       modules: false,
       reasons: false,
-      warnings: false,
+      warnings: false
     },
-    publicPath: Routes.SERVER_URL_LIB, 
+    publicPath: Routes.SERVER_URL_LIB 
   }));
   app.use(webpackHotMiddleware(compiler, {
-    log: false,
+    log: false
   }));
 }
 app.use(bodyParser.json());

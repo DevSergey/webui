@@ -2,7 +2,7 @@ const _ = require('lodash');
 const { rules } = require('./config/webpack.loaders');
 const baseKarmaConf = (overrides) => {
   const customizer = (objValue, srcValue) => {
-    if(_.isArray(objValue)) {
+    if (_.isArray(objValue)) {
       return objValue.concat(srcValue);
     }
     return srcValue;
@@ -12,7 +12,7 @@ const baseKarmaConf = (overrides) => {
     frameworks: ['jasmine'],
     files: [
       'node_module/babel-polyfill/dist/polyfill.js',
-      'tests/unit/index.js',
+      'tests/unit/index.js'
     ],
     exclude: [
     ],
@@ -25,10 +25,10 @@ const baseKarmaConf = (overrides) => {
       'karma-coverage-istanbul-reporter',
       'karma-spec-reporter',
       'karma-html-reporter',
-      'karma-junit-reporter',
+      'karma-junit-reporter'
     ],
     preprocessors: {
-      'tests/unit/index.js': ['webpack', 'sourcemap'],
+      'tests/unit/index.js': ['webpack', 'sourcemap']
     },
     reporters: ['spec', 'junit', 'html', 'coverage-istanbul'],
     coverageIstanbulReporter: {
@@ -37,8 +37,8 @@ const baseKarmaConf = (overrides) => {
       dir: 'tests/out/coverage/',
       'report-config': {
         html: {
-          subdir: 'html',
-        },
+          subdir: 'html'
+        }
       },
       thresholds: {
         emitWarning: false,
@@ -46,21 +46,21 @@ const baseKarmaConf = (overrides) => {
           statements: 90,
           lines: 90,
           branches: 90,
-          functions: 90,
-        },
+          functions: 90
+        }
       },
-      verbose: false, 
+      verbose: false 
     },
     htmlReporter: {
       outputDir: 'tests/out/unit',
       reportName: 'htmlReporter',
       namedFile: true,
-      urlFriendlyName: true,
+      urlFriendlyName: true
     },
     junitReporter: {
       outputDir: 'tests/out/unit',
       useBrowserName: false,
-      outputFile: 'junitReport.xml',
+      outputFile: 'junitReport.xml'
     },
     webpackMiddleware: {
       noInfo: true,
@@ -68,8 +68,8 @@ const baseKarmaConf = (overrides) => {
         colors: true,
         chunks: false,
         hash: false,
-        modules: false,
-      },
+        modules: false
+      }
     },
     port: 9876,
     colors: true,
@@ -86,16 +86,16 @@ const baseKarmaConf = (overrides) => {
           use: [{
             loader: 'babel-loader',
             options: {
-              "plugins": [
-                ["istanbul", {
-                  "include": [
-                    "**/src/**"
+              'plugins': [
+                ['istanbul', {
+                  'include': [
+                    '**/src/**'
                   ]
                 }]
               ]
-            },
+            }
           }],
-          exclude: /node_modules/,
+          exclude: /node_modules/
         }, {
           test: /\.scss$/,
           use: ['style-loader', 'css-loader', 'sass-loader']
@@ -105,14 +105,14 @@ const baseKarmaConf = (overrides) => {
         }].concat(rules)
       },
       resolve: {
-        extensions: ['.js', '.jsx', '.scss'],
+        extensions: ['.js', '.jsx', '.scss']
       },
       externals: {
         'react/addons': true,
         'react/lib/ExecutionEnvironment': true,
-        'react/lib/ReactContext': true,
+        'react/lib/ReactContext': true
       }
-    },
+    }
   };
   if (overrides) {
     return _.mergeWith(baseConf, overrides, customizer);
