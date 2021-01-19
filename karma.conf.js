@@ -11,7 +11,6 @@ const baseKarmaConf = (overrides) => {
     basePath: './',
     frameworks: ['jasmine'],
     files: [
-      'node_module/babel-polyfill/dist/polyfill.js',
       'tests/unit/index.js'
     ],
     exclude: [
