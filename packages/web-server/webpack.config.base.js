@@ -6,41 +6,41 @@ const postcssImport = require('postcss-import');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const devModal = process.env.NODE_ENV === 'development';
 const baseSassLoader = [{
-  loader: 'css-loader',
+  loader: 'css-loader'
 }, {
   loader: 'postcss-loader',
   option: {
     plugin: () => [
       postcssPresentEnv({
-        browsers: ['last 2 versions'],
+        browsers: ['last 2 versions']
       }),
       cssnano(),
-      postcssImport(),
-    ],
-  },
+      postcssImport()
+    ]
+  }
 }, {
   loader: 'sass-loader',
   options: {
-    outputStyle: 'collapsed',
-  },
+    outputStyle: 'collapsed'
+  }
 }];
 const sassLoaderPro = ExtractTextPlugin.extract({
   fallback: 'style-loader',
-  use: baseSassLoader,
+  use: baseSassLoader
 });
 const sassLoaderDev = [{
-  loader: 'style-loader',
+  loader: 'style-loader'
 }, {
   loader: 'css-loader',
   options: {
-    sourceMap: true,
-  },
+    sourceMap: true
+  }
 }, {
   loader: 'sass-loader',
   options: {
     sourceMap: true,
-    outputStyle: 'collapsed',
-  },
+    outputStyle: 'collapsed'
+  }
 }];
 const sassLoader = devModal ? sassLoaderDev : sassLoaderPro;
 module.exports = {
@@ -48,47 +48,47 @@ module.exports = {
   entry: {
     main: ['../web/src/index.jsx'],
     vendor: [
-      'babel-polyfill', 'react', 'react-dom', 'react-router', 'redux', 'react-redux', 'redux-thunk',
-    ],
+      'babel-polyfill', 'react', 'react-dom', 'react-router', 'redux', 'react-redux', 'redux-thunk'
+    ]
   },
   output: {
     path: path.resolve(__dirname, './lib'),
     filename: '[name].Bundle.js',
     publicPath: '/lib/',
-    sourceMapFilename: '[name].Bundle.map',
+    sourceMapFilename: '[name].Bundle.map'
   },
   module: {
     rules: [{
       test: /\.jsx?$/,
       exclude: /node_modules|lib/,
       use: {
-        loader: 'babel-loader',
-      },
+        loader: 'babel-loader'
+      }
     }, {
       test: /\.css$/,
       exclude: /node_module/,
       use: [
         { loader: 'style-loader' },
-        { loader: 'css-loader' },
-      ],
+        { loader: 'css-loader' }
+      ]
     }, {
       test: /\.scss$/,
       exclude: /node_module/,
-      use: sassLoader,
+      use: sassLoader
     }, {
       test: /\.json$/,
       use: {
-        loader: 'json-loader',
-      },
+        loader: 'json-loader'
+      }
     }, {
       test: /\.html$/,
       use: {
-        loader: 'html-loader',
-      },
-    }],
+        loader: 'html-loader'
+      }
+    }]
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.scss'],
+    extensions: ['.js', '.jsx', '.scss']
   },
   optimization: {
     splitChunks: {
@@ -96,26 +96,26 @@ module.exports = {
         commons: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendor',
-          chunks: 'all',
-        },
-      },
-    },
+          chunks: 'all'
+        }
+      }
+    }
   },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-      },
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+      }
     }),
     new ExtractTextPlugin({
       allChunks: false,
       filename: '[name].css',
-      disable: devModal,
+      disable: devModal
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-      },
-    }),
-  ],
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+      }
+    })
+  ]
 };
