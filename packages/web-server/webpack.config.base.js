@@ -3,31 +3,31 @@ const postcssPresentEnv = require('postcss-preset-env');
 const cssnano = require('cssnano');
 const path = require('path');
 const postcssImport = require('postcss-import');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const devModal = process.env.NODE_ENV === 'development';
-const baseSassLoader = [{
-  loader: 'css-loader'
-}, {
-  loader: 'postcss-loader',
-  option: {
-    plugin: () => [
-      postcssPresentEnv({
-        browsers: ['last 2 versions']
-      }),
-      cssnano(),
-      postcssImport()
-    ]
+const sassLoaderPro = [
+  MiniCssExtractPlugin.loader,
+  {
+    loader: 'css-loader'
+  }, {
+    loader: 'postcss-loader',
+    options: {
+      ident: 'postcss',
+      plugins: () => [
+        postcssPresentEnv({
+          browsers: ['last 2 versions']
+        }),
+        cssnano(),
+        postcssImport()
+      ]
+    }
+  }, {
+    loader: 'sass-loader',
+    options: {
+      outputStyle: 'collapsed'
+    }
   }
-}, {
-  loader: 'sass-loader',
-  options: {
-    outputStyle: 'collapsed'
-  }
-}];
-const sassLoaderPro = ExtractTextPlugin.extract({
-  fallback: 'style-loader',
-  use: baseSassLoader
-});
+];
 const sassLoaderDev = [{
   loader: 'style-loader'
 }, {
@@ -107,15 +107,21 @@ module.exports = {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV)
       }
     }),
-    new ExtractTextPlugin({
-      allChunks: false,
-      filename: '[name].css',
-      disable: devModal
+    new MiniCssExtractPlugin({
+      filename: devModal ? '[name].[hash].css' : '[name].css'
     }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV)
       }
     })
-  ]
+  ],
+  stats: {
+    colors: true,
+    chunks: false, 
+    hash: false,
+    modules: false,
+    reasons: false,
+    warnings: false
+  }
 };
