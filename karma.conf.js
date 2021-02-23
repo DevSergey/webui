@@ -73,9 +73,9 @@ const baseKarmaConf = (overrides) => {
     port: 9876,
     colors: true,
     autoWatch: true,
-    browsers: ['ChromeHeadless'],
+    browsers: ['HeadlessChrome'],
     customLaunchers:{
-      ChromeHeadless:{
+      HeadlessChrome:{
         base: 'ChromeHeadless',
         flags: ['--no-sandbox']
       }
