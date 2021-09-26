@@ -4,16 +4,16 @@ exports.config = {
   directConnect: true,
   jasmineNodeOpts:
   {
-      isVerbose: false,
-      showColors: true,
-      includeStackTrace: true,
-      defaultTimeoutInterval: 600000,
+    isVerbose: false,
+    showColors: true,
+    includeStackTrace: true,
+    defaultTimeoutInterval: 600000
   },
   baseUrl: 'http:
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {
-      args: [ "--disable-gpu", "--no-sandbox", "disable-infobars", "--window-size=1680,1050", "--headless" ]
+      args: [ '--disable-gpu', '--no-sandbox', 'disable-infobars', '--window-size=1680,1050', '--headless' ]
     }
-  },
-}
+  }
+};

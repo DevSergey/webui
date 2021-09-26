@@ -74,8 +74,8 @@ const baseKarmaConf = (overrides) => {
     colors: true,
     autoWatch: true,
     browsers: ['HeadlessChrome'],
-    customLaunchers:{
-      HeadlessChrome:{
+    customLaunchers: {
+      HeadlessChrome: {
         base: 'ChromeHeadless',
         flags: ['--no-sandbox']
       }
